@@ -19,7 +19,7 @@ sentence-transformers==2.2.2
 sentencepiece==0.1.99
 tiktoken==0.3.3
 tokenizers==0.13.3
-transformers==4.33.1
+transformers==4.36.0
 faiss-cpu==1.7.4
 mpi4py==3.1.5
 psutil==5.9.7
