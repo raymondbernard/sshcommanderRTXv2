@@ -1,0 +1,198 @@
+Username: cumulus
+Password: cumulus
+
+
+Exercise 1 VLANs and Interfaces
+
+Enable all interfaces
+Create Bridge on all leaf switches and add VLAN 100 to it
+Set interface swp1 on leaf03 as Access port in VLAN 100
+
+Note: leaf01 and leaf02 will be handled later
+
+
+Set loopback IP address on all leaf switches as follows:
+
+leaf01 – 10.10.10.1/32
+leaf02 – 10.10.10.2/32
+leaf03 – 10.10.10.3/32
+
+
+Create interface VLAN100 (SVI) on all leaf switches and set IP addresses as follows:
+
+leaf01 – 192.168.100.1/24
+leaf02 – 192.168.100.2/24
+leaf03 – 192.168.100.254/24
+
+
+
+Verify all interfaces Bridge and IP configuration
+
+leaf01
+
+nv set platform hostname value leaf01
+nv set interface swp1,48-50 link state up
+nv set bridge domain br_default
+nv set bridge domain br_default vlan 100
+nv set interface lo ip address 10.10.10.1/32
+nv set interface vlan100 ip address 192.168.100.1/24
+nv set interface vlan100 vlan 100
+nv config apply
+
+
+leaf02
+
+nv set platform hostname value leaf02
+nv set interface swp1,48-50 link state up
+nv set bridge domain br_default
+nv set bridge domain br_default vlan 100
+nv set interface lo ip address 10.10.10.2/32
+nv set interface vlan100 ip address 192.168.100.2/24
+nv set interface vlan100 vlan 100
+nv config apply
+
+
+leaf03
+
+nv set platform hostname value leaf03
+nv set interface swp1,48 link state up
+nv set bridge domain br_default
+nv set bridge domain br_default vlan 100
+nv set interface swp1 bridge domain br_default access 100
+nv set interface lo ip address 10.10.10.3/32
+nv set interface vlan100 ip address 192.168.100.3/24
+nv set interface vlan100 vlan 100
+nv config apply
+
+
+Intructions to setup MLAG and VRR
+
+Configure leaf01 and leaf02 as MLAG peers
+Create peerlink (bond) with swp49-50 as members
+Create MLAG port (Mpo) on the MLAG switches and set interface swp1 as its member
+Set the Mpo as Trunk port in VLAN 100
+Create VRR on SVI 100 with IP address of 192.168.100.254/24
+Verify MLAG is operational and Mpo is up in VLAN 100
+Verify that VRR is active
+
+leaf01:
+
+nv set interface peerlink bond member swp49-50
+nv set interface peerlink bridge domain br_default
+nv set mlag peer-ip linklocal
+nv set mlag init-delay 10
+nv set mlag mac-address 44:38:39:BE:EF:BB
+nv set mlag backup 10.10.10.2
+nv set mlag priority 1000
+nv set interface bond1 bond member swp1
+nv set interface bond1 bridge domain br_default access 100
+nv set interface bond1 bond mlag id 1
+nv set interface bond1 bond lacp-bypass on
+nv set interface bond1 link mtu 9216
+nv set interface vlan100 ip vrr address 192.168.100.254/24
+nv set interface vlan100 ip vrr mac-address 00:00:00:00:01:00
+nv set interface vlan100 ip vrr state up
+nv config apply
+
+
+leaf02:
+
+nv set interface peerlink bond member swp49-50
+nv set interface peerlink bridge domain br_default
+nv set mlag peer-ip linklocal
+nv set mlag init-delay 10
+nv set mlag mac-address 44:38:39:BE:EF:BB
+nv set mlag backup 10.10.10.1
+nv set interface bond1 bond member swp1
+nv set interface bond1 bridge domain br_default access 100
+nv set interface bond1 bond mlag id 1
+nv set interface bond1 bond lacp-bypass on
+nv set interface bond1 link mtu 9216
+nv set interface vlan100 ip vrr address 192.168.100.254/24
+nv set interface vlan100 ip vrr mac-address 00:00:00:00:01:00
+nv set interface vlan100 ip vrr state up
+nv config apply
+
+
+
+Instruction to setup BGP Underlay:
+Configure BGP underlay fabric connectivity
+Use AutoBGP
+Use BGP Unmembered
+Spine01 already preconfigured
+Set BGP router ID as switch’s loopback address
+Redistribute directly connected networks into IPv4 AF
+Verify BGP peering and route advertisements (IPv4)
+
+Commands:
+leaf01:
+
+nv set router bgp autonomous-system leaf
+nv set router bgp router-id 10.10.10.1
+nv set vrf default router bgp peer swp48 remote-as external
+nv set vrf default router bgp address-family ipv4-unicast redistribute connected enable on
+nv config apply
+
+
+leaf02:
+
+nv set router bgp autonomous-system leaf
+nv set router bgp router-id 10.10.10.2
+nv set vrf default router bgp peer swp48 remote-as external
+nv set vrf default router bgp address-family ipv4-unicast redistribute connected enable on
+nv config apply
+
+
+leaf03:
+
+nv set router bgp autonomous-system leaf
+nv set router bgp router-id 10.10.10.3
+nv set vrf default router bgp peer swp48 remote-as external
+nv set vrf default router bgp address-family ipv4-unicast redistribute connected enable on
+nv config apply
+
+
+
+Intructions Stretch: 
+
+Set NVE interface source IP
+Map VLAN100 to VNI 1000100 on all leaf switches
+Enable EVPN on all switches
+Configure BGP EVPN AF and enable the BGP peers in it
+Verify BGP-EVPN neighborships and routes
+Send PING between the two servers
+Verify remote MAC learning
+
+Commands:
+leaf01:
+nv set bridge domain br_default vlan 100 vni 1000100
+nv set nve vxlan source address 10.10.10.1
+nv set nve vxlan mlag shared-address 10.10.10.12
+nv set evpn enable on
+nv set vrf default router bgp address-family ipv4-unicast route-export to-evpn
+nv set vrf default router bgp address-family l2vpn-evpn enable on
+nv set vrf default router bgp peer swp48 address-family l2vpn-evpn enable on
+nv config apply
+
+
+leaf02:
+
+​nv set bridge domain br_default vlan 100 vni 1000100
+nv set nve vxlan source address 10.10.10.2
+nv set nve vxlan mlag shared-address 10.10.10.12
+nv set evpn enable on
+nv set vrf default router bgp address-family ipv4-unicast route-export to-evpn
+nv set vrf default router bgp address-family l2vpn-evpn enable on
+nv set vrf default router bgp peer swp48 address-family l2vpn-evpn enable on
+nv config apply
+
+
+leaf03:
+
+nv set bridge domain br_default vlan 100 vni 1000100
+nv set nve vxlan source address 10.10.10.3
+nv set evpn enable on
+nv set vrf default router bgp address-family ipv4-unicast route-export to-evpn
+nv set vrf default router bgp address-family l2vpn-evpn enable on
+nv set vrf default router bgp peer swp48 address-family l2vpn-evpn enable on
+nv config apply
