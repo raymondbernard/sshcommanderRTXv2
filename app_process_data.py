@@ -33,6 +33,8 @@ local_app_data = os.getenv('LOCALAPPDATA')
 CHAT_LOGS = os.path.join(local_app_data, "NVIDIA", "ChatWithRTX", "RAG", "trt-llm-rag-windows-main", "chat_logs.jsonl")
 DATABASE_PATH = os.path.join(local_app_data, "NVIDIA", "ChatWithRTX", "RAG", "trt-llm-rag-windows-main", "sshcommander.db")
 
+
+
 def parse_chat_logs(chat_logs_path):
     results = []
     with open(chat_logs_path, 'r') as file:
