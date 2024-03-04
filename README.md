@@ -1,12 +1,16 @@
 # SSH Commader with Chat RTX .  A RAG on Windows using TensorRT-LLM and LlamaIndex 
 
-# SSH Commander
 
-SSH Commander is a application that facilitates the configuration and testing of servers or network devices via SSH. It provides a user-friendly interface to input server details, commands to be executed, and also to execute these commands directly from the application.
+SSH Commander is a application that facilitates the configuration and testing of servers or network devices via SSH. It uses Mistral 7b with NVIDIA tensorrt llm to spead up inferance.  It runs on Windows with GeForce RTX 4xxx . 
+
+ **The SSH Commander with RTX**: This isn't just any program; it's your gateway to effortlessly generating and deploying SSH commands. The AI does the heavy lifting, crafting commands for you to review and execute. It's simplicity and efficiency at its finest.
+
+We have included **OpenAI Compatible API**: We have included a compatible OPenAPI api.  The gui is not build yet.  However, you are welcome to use it as it is has promising seamless integration for developers keen on customization. In short it just requires you to uncomment two lines from the app_launch.bat.  We includes a test_app.py client for connecting , testing and running the OpenAI compatible api. 
 
 
-This addition uses Chat with RTX which lets you personalize a GPT large language model (LLM) connected to your own content—docs, notes, videos, or other data. Leveraging retrieval-augmented generation (RAG), TensorRT-LLM, and RTX acceleration, you can query a custom chatbot to quickly get contextually relevant answers. And because it all runs locally on your Windows RTX PC or workstation, you’ll get fast and secure results.
+Build with Tensorrt_llm our project uses Chat with RTX which lets you personalize a GPT large language model (LLM) connected to your own content—docs, notes, videos, or other data. Leveraging retrieval-augmented generation (RAG), TensorRT-LLM, and RTX acceleration, you can query a custom chatbot to quickly get contextually relevant answers. And because it all runs locally on your Windows RTX PC or workstation, you’ll get fast and secure results.
 Chat with RTX supports various file formats, including text, pdf, doc/docx, and xml. Simply point the application at the folder containing your files and it'll load them into the library in a matter of seconds. Additionally, you can provide the url of a YouTube playlist and the app will load the transcriptions of the videos in the playlist, enabling you to query the content they cover. - by Nvidia 
+
 
 ### What is RAG? 🔍
 Retrieval-augmented generation (RAG) for large language models (LLMs) seeks to enhance prediction accuracy by leveraging an external datastore during inference. This approach constructs a comprehensive prompt enriched with context, historical data, and recent or relevant knowledge.
@@ -68,13 +72,13 @@ Then copy all the files from sshcommander into the above Chat with RTX directory
 Just double click on the Icon and it will open two windows.
 One for the Chat with RTX and other for SSH Commander.
 
-The applicaions are now connected. 
+The applications are now connected. 
 
 For the LLM window select a directory you want to reference your knowledge store. IE files which describe your particualar SSH commands lines. 
 Then just ask the LLM for the commands you need .  It will configure the SSH Commander to use them .  Then you need tab over the the SSH commander 
 window to edit and execute them once you configure you SSH pem key and login information. 
 
-Please checkout our two youtube vidoes for detail directions. 
+Please checkout our two youtube videos for detail directions. 
 
 
 ## Demo 
@@ -119,5 +123,6 @@ ray.bernard@outlook.com
 - Latest NVIDIA GPU drivers
 
 
-GenAIonRTX, #DevContest, and #GTC24
+
+#GenAIonRTX, #DevContest, and #GTC24
 @NVIDIAAIDev, @NVIDIAAI, @NVIDIAAI
