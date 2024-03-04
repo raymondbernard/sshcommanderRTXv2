@@ -18,6 +18,7 @@
 :: LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 :: FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 :: DEALINGS IN THE SOFTWARE.
+:: edited by Ray Bernard , ray.bernard@outlook.com
 
 @echo off
 setlocal enabledelayedexpansion
@@ -38,14 +39,16 @@ for /f "tokens=1,* delims= " %%a in ('"%localappdata%\NVIDIA\MiniConda\Scripts\c
 )
 
 :endfor
+@REM uncomment the blow lines to activate the OpenAI api locally
+@REM please use the test_api.py to connect and play with model locally.
 if not "%env_path_found%"=="" (
     echo Environment path found: %env_path_found%
     call "%localappdata%\NVIDIA\MiniConda\Scripts\activate.bat" %env_path_found%
     cd C:\Users\RayBe\AppData\Local\NVIDIA\ChatWithRTX\RAG\trt-llm-rag-windows-main
     python verify_install.py
-    pip install -r requirements_api.txt 
-    start python app_sshtensortt.py
-    python app_api.py 
+    @REM pip install -r requirements_api.txt 
+    python app_sshtensortt.py
+    @REM python app_api.py 
     @REM python test_api.py 
 
     pause
