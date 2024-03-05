@@ -83,7 +83,7 @@ Please checkout our two youtube videos for detail directions.
 
 ## Demo 
 
-For a visual demonstration of how SSH Commander works, you can watch our demo video here: [YouTube Demo](https://youtu.be/4gGqr2Olrpc)
+For a visual demonstration of how SSH Commander works, you can watch our demo video here: [YouTube Demo](https://www.youtube.com/watch?v=XS_zkYp1GwU&t)
 
 
 ## Usage
