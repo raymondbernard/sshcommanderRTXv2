@@ -32,7 +32,7 @@ CHAT_LOGS = os.path.join(local_app_data, "NVIDIA", "ChatWithRTX", "RAG", "trt-ll
 trt_engine_path = "./model/mistral/mistral7b_int4_engine/"
 trt_engine_name = "llama_float16_tp1_rank0.engine"
 tokenizer_dir_path = "./model/mistral/mistral7b_hf/"
-verbose = False
+verbose = True
 host = '127.0.0.1'
 port = 8081
 no_system_prompt = True 
@@ -47,7 +47,8 @@ llm = TrtLlmAPI(
     context_window=2048,
     messages_to_prompt=messages_to_prompt,
     completion_to_prompt=completion_to_prompt,
-    verbose=False
+    verbose=True
+
 )
 
 app = Flask(__name__)
@@ -120,6 +121,9 @@ def chat_completions():
         system_prompt = ""
         if not no_system_prompt:
             system_prompt = DEFAULT_SYSTEM_PROMPT
+        print("line 124 my json body received  == ", body)
+        print("line 125 my  messages received are == ", messages)
+        print("line 126 my  system prompt received are == ", system_prompt)
 
         prompt = messages_to_prompt(messages, system_prompt)
 
@@ -144,6 +148,7 @@ def completion():
     stream = False
     temperature = 1.0
     body = request.get_json()
+    print("line 147 body = ", request)
     if "stream" in body:
         stream = body["stream"]
     if "temperature" in body:
