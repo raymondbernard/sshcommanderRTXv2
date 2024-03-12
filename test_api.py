@@ -29,8 +29,6 @@ if __name__ == "__main__":
     prompt = "What is your mission? "
     completion = request_chat_completion(prompt, system_message)
     if completion:
-        # content = completion['choices'][0]['message']['response']
-        # print("Completion:", content)
         response_data = completion['choices'][0]['message']['content'].split('* `response`: ')[-1].split('</s>')[0]
         print(response_data)
 
