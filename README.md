@@ -1,3 +1,6 @@
+Please use sshcommaderrtx3-- The Chat with RTX 2.0 has been updated with breaking changes. 
+please refer to the working repository 
+https://github.com/raymondbernard/sshcommandertxv3
 # SSH Commader with Chat RTX .  A RAG on Windows using TensorRT-LLM and LlamaIndex 
 
 
