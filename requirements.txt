@@ -9,7 +9,7 @@ langchain==0.0.310
 numpy==1.24.0
 onnx==1.14.1
 pandas==2.0.3
-pydantic==2.3.0
+pydantic==2.4.0
 pydantic-core==2.6.3
 pydantic-settings==2.0.3
 pymilvus==2.3.0
